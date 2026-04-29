@@ -12,7 +12,7 @@ CYAN    := \033[0;36m
 MAGENTA := \033[0;35m
 NC      := \033[0m
 
-.PHONY: help install train evaluate predict test lint clean check-env
+.PHONY: help install train evaluate predict test lint clean check-env download-data
 
 PYTHON  := python3
 PYTHONPATH := $(shell pwd)
@@ -41,6 +41,7 @@ help:
 	@echo "  $(YELLOW)make test$(NC)          	- Запустить юнит-тесты"
 	@echo "  $(YELLOW)make lint$(NC)           	- Запустить проверку кода"
 	@echo "  $(YELLOW)make clean$(NC)          	- Очистить файлы кэша"
+	@echo "  $(YELLOW)make download-data$(NC)  	- Скачать данные с Google Drive"
 	@echo ""
 	@echo "$(GREEN)Параметры:$(NC)"
 	@echo "  DATA_DIR=путь         - Путь к данным (по умл.: data/train)"
@@ -69,6 +70,16 @@ install:
 	@echo "$(BLUE)Установка зависимостей...$(NC)"
 	$(PYTHON) -m pip install -r requirements.txt
 	@echo "$(GREEN)Зависимости успешно установлены!$(NC)"
+
+# ============================================================================
+# Скачивание данных
+# ============================================================================
+download-data:
+	@echo "$(BLUE)Скачивание данных...$(NC)"
+	@$(PYTHON) -c "import gdown" 2>/dev/null || $(PYTHON) -m pip install gdown
+	@echo "$(YELLOW)Внимание: нужно указать ID гугл-папки вручную$(NC)"
+	@echo "$(YELLOW)Используй: gdown --folder 'ID_ПАПКИ' -O data/train/$(RESET)"
+	@echo "$(GREEN)Данные скачаны!$(RESET)"
 
 # ============================================================================
 # Обучение модели
