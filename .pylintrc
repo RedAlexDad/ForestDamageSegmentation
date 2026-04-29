@@ -1,0 +1,21 @@
+[MASTER]
+extension-pkg-whitelist=cv2,imgaug,numpy,tensorflow
+ignored-classes=optparse.Values,thread._local,thread.Local
+
+[MESSAGES CONTROL]
+disable=all
+enable=E,F,R,W,C
+
+[DESIGN]
+max-args=10
+max-locals=20
+
+[FORMAT]
+max-line-length=120
+indent-string='    '
+
+[BASIC]
+good-names=i,j,k,x,y,z,t,f,h,w,n_,d_,o_,e_,l_,a_,b_
+
+[IMPORTS]
+known-third-party=tensorflow,numpy,cv2,imgaug,skimage,sklearn,mlflow,matplotlib

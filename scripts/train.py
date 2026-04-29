@@ -3,11 +3,12 @@ import os
 import argparse
 import numpy as np
 
-from src.data import load_train_data, create_datasets, get_training_augmentor
+from src.data import load_train_data, create_datasets
 from src.models import build_unet, compile_model
-from src.losses import dice_loss, combined_loss
+from src.losses import dice_loss
 from src.metrics import dice_coefficient, iou_score
 from src.training import ModelTrainer
+from src.mlflow_utils import MLflowLogger
 
 
 def parse_args():
@@ -18,15 +19,31 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--n-channels", type=int, default=6)
     parser.add_argument("--model-path", type=str, default="models/unet_model.h5")
+    parser.add_argument("--mlflow", action="store_true", default=True, help="Enable MLflow logging")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
+    logger = None
+    if args.mlflow:
+        logger = MLflowLogger(experiment_name="forest-damage-segmentation")
+        logger.log_params({
+            "learning_rate": args.lr,
+            "batch_size": args.batch_size,
+            "epochs": args.epochs,
+            "n_channels": args.n_channels,
+            "image_size": 256,
+            "model": "UNet"
+        })
+
     print("Loading data...")
     images, masks = load_train_data(args.data_dir, args.n_channels)
     print(f"Loaded {len(images)} images")
+
+    if logger:
+        logger.log_params({"n_samples": len(images)})
 
     print("Creating datasets...")
     train_ds, val_ds = create_datasets(
@@ -54,13 +71,18 @@ def main():
         "image_size": 256
     }
 
-    trainer = ModelTrainer(model, config)
+    trainer = ModelTrainer(model, config, logger)
     history = trainer.train(
         train_ds,
         val_ds,
         epochs=args.epochs,
         verbose=1
     )
+
+    if logger:
+        logger.log_training_history(history)
+        logger.log_model(model, "unet_model")
+        logger.end_run()
 
     os.makedirs(os.path.dirname(args.model_path) or "models", exist_ok=True)
     trainer.save(args.model_path)
