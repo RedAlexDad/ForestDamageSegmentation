@@ -16,10 +16,10 @@ class SatelliteTileLoader:
         self.data_dir = data_dir
         self.tile_paths = []
 
-    def load_tiles(self, pattern: str = "*with_object.tif") -> list:
-        """Load all tile paths matching pattern."""
-        search_path = os.path.join(self.data_dir, "*", pattern)
-        self.tile_paths = sorted(glob.glob(search_path))
+    def load_tiles(self, pattern: str = "*_with_object.tif") -> list:
+        """Load all tile paths matching pattern recursively."""
+        search_path = os.path.join(self.data_dir, "**", pattern)
+        self.tile_paths = sorted(glob.glob(search_path, recursive=True))
         return self.tile_paths
 
     def load_tile(self, path: str, normalize: bool = True) -> np.ndarray:

@@ -8,6 +8,8 @@ from tensorflow.keras.callbacks import (
 from tensorflow.keras.models import Model
 import tensorflow as tf
 
+os.makedirs("logs", exist_ok=True)
+
 
 class ModelTrainer:
     """Trainer class for segmentation models."""
