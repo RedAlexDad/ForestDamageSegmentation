@@ -81,15 +81,16 @@ download-data:
 	@echo "$(CYAN)https://drive.google.com/drive/folders/1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D$(RESET)"
 	@echo ""
 	@echo "$(YELLOW)Скачай архивы в папку NN_Satellite/$(RESET)"
-	@echo ""
-	@if [ -f NN_Satellite/*.tar.gz ]; then \
+	@if [ -f NN_Satellite/tiles_256_256_27_train.tar.gz ]; then \
+		echo ""; \
 		echo "$(YELLOW)Найдены архивы, распаковываем...$(NC)"; \
 		mkdir -p $(DATA_DIR); \
-		tar -xzf NN_Satellite/tiles_256_256_27_train.tar.gz -C $(DATA_DIR) 2>/dev/null || true; \
-		tar -xzf NN_Satellite/tiles_256_256_27_test.tar.gz -C $(DATA_DIR) 2>/dev/null || true; \
+		tar -xzf NN_Satellite/tiles_256_256_27_train.tar.gz -C $(DATA_DIR); \
+		tar -xzf NN_Satellite/tiles_256_256_27_test.tar.gz -C $(DATA_DIR); \
 		echo "$(GREEN)Данные в $(DATA_DIR)!$(RESET)"; \
 	else \
-		echo "$(GREEN)Готово! Теперь скачай архивы в NN_Satellite/ и повтори make download-data$(RESET)"; \
+		echo ""; \
+		echo "$(GREEN)Готово! Скачай архивы в NN_Satellite/ и повтори make download-data$(RESET)"; \
 	fi
 
 # ============================================================================
