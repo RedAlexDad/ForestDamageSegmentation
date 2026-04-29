@@ -135,7 +135,7 @@ class MLflowLogger:
             mlflow.log_artifact(tmp.name, name)
             os.unlink(tmp.name)
     
-    def log_training_history(self, history: tf.keras.History) -> None:
+    def log_training_history(self, history) -> None:
         """Логирование истории обучения."""
         # Метрики
         metrics = {}
@@ -155,7 +155,7 @@ class MLflowLogger:
     
     def plot_training_curves(
         self,
-        history: tf.keras.History,
+        history,
         metrics: List[str] = None
     ) -> plt.Figure:
         """Построение графиков обучения."""
