@@ -128,7 +128,7 @@ def create_datasets(
     val_masks = masks[val_indices].astype(np.float32)
 
     train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_masks))
-    train_ds = train_ds.batch(batch_size).shuffle(buffer_size=len(train_images))
+    train_ds = train_ds.batch(batch_size).shuffle(buffer_size=1000) if len(train_images) > 0 else train_ds
 
     val_ds = tf.data.Dataset.from_tensor_slices((val_images, val_masks))
     val_ds = val_ds.batch(batch_size)
