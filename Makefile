@@ -80,16 +80,17 @@ download-data:
 	@echo "$(YELLOW)Открой ссылку в браузере и скачай 3 архива:${RESET}"
 	@echo "$(CYAN)https://drive.google.com/drive/folders/1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D$(RESET)"
 	@echo ""
-	@echo "$(YELLOW)Распакуй архивы в data/train/:${RESET}"
-	@echo "  tar -xzf tiles_256_256_27_train.tar.gz -C data/train/"
-	@echo "  tar -xzf tiles_256_256_27_test.tar.gz -C data/train/"
+	@echo "$(YELLOW)Скачай архивы в папку NN_Satellite/$(RESET)"
 	@echo ""
-	@echo "$(GREEN)Готово!$(RESET)"
-	@echo "$(YELLOW)Распаковываем...$(NC)"
-	@mkdir -p $(DATA_DIR)
-	tar -xzf *.tar.gz -C $(DATA_DIR) 2>/dev/null || mv *tiles*/* $(DATA_DIR)/ 2>/dev/null || true
-	@rm -rf tiles_* *.tar.gz
-	@echo "$(GREEN)Данные в $(DATA_DIR)!$(RESET)"
+	@if [ -f NN_Satellite/*.tar.gz ]; then \
+		echo "$(YELLOW)Найдены архивы, распаковываем...$(NC)"; \
+		mkdir -p $(DATA_DIR); \
+		tar -xzf NN_Satellite/tiles_256_256_27_train.tar.gz -C $(DATA_DIR) 2>/dev/null || true; \
+		tar -xzf NN_Satellite/tiles_256_256_27_test.tar.gz -C $(DATA_DIR) 2>/dev/null || true; \
+		echo "$(GREEN)Данные в $(DATA_DIR)!$(RESET)"; \
+	else \
+		echo "$(GREEN)Готово! Теперь скачай архивы в NN_Satellite/ и повтори make download-data$(RESET)"; \
+	fi
 
 # ============================================================================
 # Обучение модели
