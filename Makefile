@@ -45,7 +45,7 @@ help:
 	@echo "  $(YELLOW)make lint$(NC)           	- Запустить проверку кода"
 	@echo "  $(YELLOW)make clean$(NC)          	- Очистить файлы кэша"
 	@echo "  $(YELLOW)make download-data$(NC)  	- Скачать данные с Google Drive"
-@echo ""
+	@echo ""
 	@echo "$(GREEN)Параметры:$(NC)"
 	@echo "  DATA_DIR=путь         - Путь к данным (по умл.: data/train)"
 	@echo "  MODEL_DIR=путь        - Путь для сохран. моделей (по умл.: models)"
