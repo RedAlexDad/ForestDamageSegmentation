@@ -21,6 +21,7 @@ MODEL_DIR ?= models
 EPOCHS ?= 50
 BATCH_SIZE ?= 8
 LEARNING_RATE ?= 0.001
+DEVICE ?= cpu
 
 # ============================================================================
 # Цель по умолчанию - показать справку
@@ -36,6 +37,8 @@ help:
 	@echo "  $(YELLOW)make install$(NC)       	- Установить зависимости из requirements.txt"
 	@echo "  $(YELLOW)make check-env$(NC)     	- Проверить Python окружение и пакеты"
 	@echo "  $(YELLOW)make train$(NC)          	- Обучить модель U-Net"
+	@echo "  $(YELLOW)make train$(NC) DEVICE=gpu - Принудительно использовать GPU"
+	@echo "  $(YELLOW)make train$(NC) DEVICE=cpu - Принудительно использовать CPU"
 	@echo "  $(YELLOW)make evaluate$(NC)      	- Оценить обученную модель"
 	@echo "  $(YELLOW)make predict$(NC)       	- Запустить инференс на изображениях"
 	@echo "  $(YELLOW)make test$(NC)          	- Запустить юнит-тесты"
@@ -49,12 +52,12 @@ help:
 	@echo "  EPOCHS=число          - Количество эпох обучения (по умл.: 50)"
 	@echo "  BATCH_SIZE=число      - Размер батча (по умл.: 8)"
 	@echo "  LEARNING_RATE=число   - Скорость обучения (по умл.: 0.001)"
+@echo "  DEVICE=cpu|gpu    - Устройство для обучения (по умл.: cpu)"
 	@echo ""
 	@echo "$(GREEN)Примеры:$(NC)"
-	@echo "  make train                          # по умолчанию"
-	@echo "  make train EPOCHS=10 BATCH_SIZE=16 # быстрое обучение"
-	@echo "  make train EPOCHS=100 LR=0.0001     # долгое обучение"
-	@echo "  make predict MODEL_DIR=/путь/к/модели.h5"
+	@echo "  make train                          # CPU, 50 эпох"
+	@echo "  make train EPOCHS=10 BATCH_SIZE=16   # быстрое обучение"
+	@echo "  make train EPOCHS=100 DEVICE=gpu    # GPU, 100 эпох"
 
 # ============================================================================
 # Проверка окружения
@@ -104,7 +107,8 @@ train: check-env
 		--data-dir $(DATA_DIR) \
 		--epochs $(EPOCHS) \
 		--batch-size $(BATCH_SIZE) \
-		--lr $(LEARNING_RATE)
+		--lr $(LEARNING_RATE) \
+		--device $(DEVICE)
 	@echo "$(GREEN)Обучение завершено! Модель сохранена в $(MODEL_DIR)$(NC)"
 
 # ============================================================================

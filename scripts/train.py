@@ -20,11 +20,14 @@ def parse_args():
     parser.add_argument("--n-channels", type=int, default=6)
     parser.add_argument("--model-path", type=str, default="models/unet_model.h5")
     parser.add_argument("--mlflow", action="store_true", default=True, help="Enable MLflow logging")
+    parser.add_argument("--device", type=str, default="cpu", choices=["cpu", "gpu"], help="Device to use")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
+
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0" if args.device == "gpu" else "-1"
 
     logger = None
     if args.mlflow:
