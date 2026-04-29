@@ -12,7 +12,7 @@ CYAN    := \033[0;36m
 MAGENTA := \033[0;35m
 NC      := \033[0m
 
-.PHONY: help install train evaluate predict test lint clean check-env download-data
+.PHONY: help install train evaluate predict test lint clean check-env download-data mlflow-ui
 
 PYTHON  := python3
 PYTHONPATH := $(shell pwd)
@@ -45,6 +45,7 @@ help:
 	@echo "  $(YELLOW)make lint$(NC)           	- Запустить проверку кода"
 	@echo "  $(YELLOW)make clean$(NC)          	- Очистить файлы кэша"
 	@echo "  $(YELLOW)make download-data$(NC)  	- Скачать данные с Google Drive"
+	@echo "  $(YELLOW)make mlflow-ui$(NC)     	- Запустить MLflow UI"
 	@echo ""
 	@echo "$(GREEN)Параметры:$(NC)"
 	@echo "  DATA_DIR=путь         - Путь к данным (по умл.: data/train)"
@@ -98,6 +99,14 @@ download-data:
 		echo ""; \
 		echo "$(GREEN)Готово! Скачай архивы в NN_Satellite/ и повтори make download-data$(RESET)"; \
 	fi
+
+# ============================================================================
+# MLflow UI
+# ============================================================================
+mlflow-ui:
+	@echo "$(BLUE)Запуск MLflow UI...$(NC)"
+	@echo "$(YELLOW)Открой http://127.0.0.1:5000 в браузере$(NC)"
+	mlflow ui --backend-store-uri sqlite:///mlflow.db
 
 # ============================================================================
 # Обучение модели
