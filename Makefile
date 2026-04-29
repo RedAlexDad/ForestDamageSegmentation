@@ -15,6 +15,7 @@ NC      := \033[0m
 .PHONY: help install train evaluate predict test lint clean check-env
 
 PYTHON  := python3
+PYTHONPATH := $(shell pwd)
 DATA_DIR ?= data/train
 MODEL_DIR ?= models
 EPOCHS ?= 50
@@ -74,7 +75,7 @@ install:
 # ============================================================================
 train: check-env
 	@echo "$(BLUE)Запуск обучения...$(NC)"
-	$(PYTHON) scripts/train.py \
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) scripts/train.py \
 		--data-dir $(DATA_DIR) \
 		--epochs $(EPOCHS) \
 		--batch-size $(BATCH_SIZE) \
@@ -86,7 +87,7 @@ train: check-env
 # ============================================================================
 evaluate: check-env
 	@echo "$(BLUE)Оценка модели...$(NC)"
-	$(PYTHON) scripts/evaluate.py \
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) scripts/evaluate.py \
 		--model-path $(MODEL_DIR)/best_model.h5
 	@echo "$(GREEN)Оценка завершена!$(NC)"
 
@@ -95,7 +96,7 @@ evaluate: check-env
 # ============================================================================
 predict: check-env
 	@echo "$(BLUE)Запуск инференса...$(NC)"
-	$(PYTHON) scripts/predict.py \
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) scripts/predict.py \
 		--model-path $(MODEL_DIR)/best_model.h5 \
 		--input-dir $(DATA_DIR) \
 		--output-dir results/predictions
