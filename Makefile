@@ -76,18 +76,15 @@ install:
 # ============================================================================
 download-data:
 	@echo "$(BLUE)Скачивание данных...$(NC)"
-	@mkdir -p $(DATA_DIR)
-	@echo "$(YELLOW)Скачиваем files.tar.gz...$(NC)"
-	gdown -O $(DATA_DIR)/files.tar.gz "https://drive.usercontent.google.com/download?id=1bV5hXJdXVIsbBg-ptEpS_L4aJlGMhozm&export=download"
-	@echo "$(YELLOW)Скачиваем tiles_256_256_27_test.tar.gz...$(NC)"
-	gdown -O $(DATA_DIR)/tiles_256_256_27_test.tar.gz "https://drive.usercontent.google.com/download?id=1XyAmdggFtsIHt6cj3w6qnr8lqxdISQaT&export=download"
-	@echo "$(YELLOW)Скачиваем tiles_256_256_27_train.tar.gz...$(NC)"
-	gdown -O $(DATA_DIR)/tiles_256_256_27_train.tar.gz "https://drive.usercontent.google.com/download?id=1XqqP5ejClSw4sEeVtmCESPTywPzmLaZ2&export=download"
-	@echo "$(YELLOW)Распаковываем...$(NC)"
-	@tar -xzf $(DATA_DIR)/files.tar.gz -C $(DATA_DIR) --strip-components=1
-	@tar -xzf $(DATA_DIR)/tiles_256_256_27_train.tar.gz -C $(DATA_DIR) --strip-components=1 2>/dev/null || true
-	@rm -f $(DATA_DIR)/*.tar.gz
-	@echo "$(GREEN)Готово! Данные в $(DATA_DIR)$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)Открой ссылку в браузере и скачай 3 архива:${RESET}"
+	@echo "$(CYAN)https://drive.google.com/drive/folders/1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D$(RESET)"
+	@echo ""
+	@echo "$(YELLOW)Распакуй архивы в data/train/:${RESET}"
+	@echo "  tar -xzf tiles_256_256_27_train.tar.gz -C data/train/"
+	@echo "  tar -xzf tiles_256_256_27_test.tar.gz -C data/train/"
+	@echo ""
+	@echo "$(GREEN)Готово!$(RESET)"
 	@echo "$(YELLOW)Распаковываем...$(NC)"
 	@mkdir -p $(DATA_DIR)
 	tar -xzf *.tar.gz -C $(DATA_DIR) 2>/dev/null || mv *tiles*/* $(DATA_DIR)/ 2>/dev/null || true
