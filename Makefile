@@ -76,9 +76,13 @@ install:
 # ============================================================================
 download-data:
 	@echo "$(BLUE)Скачивание данных...$(NC)"
-	@$(PYTHON) -c "import gdown" 2>/dev/null || $(PYTHON) -m pip install gdown
-	@echo "$(YELLOW)Скачиваем с Google Drive...$(NC)"
-	gdown --folder "1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D" -O . --quiet
+	@$(PYTHON) -c "import gdown" 2>/dev/null || $(PYTHON) -m pip install gdown -q
+	@echo "$(YELLOW)Скачиваем с Google Drive (может занять время)...$(NC)"
+	@(gdown --folder "1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D" -O . 2>&1 || true)
+	@mkdir -p $(DATA_DIR)
+	@tar -xzf *.tar.gz -C $(DATA_DIR) 2>/dev/null || true
+	@rm -f *.tar.gz
+	@echo "$(GREEN)Данные в $(DATA_DIR)!$(RESET)"
 	@echo "$(YELLOW)Распаковываем...$(NC)"
 	@mkdir -p $(DATA_DIR)
 	tar -xzf *.tar.gz -C $(DATA_DIR) 2>/dev/null || mv *tiles*/* $(DATA_DIR)/ 2>/dev/null || true
