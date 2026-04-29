@@ -111,7 +111,9 @@ def create_datasets(
     val_split: float = 0.2,
     seed: int = 42
 ) -> tuple:
-    """Create train and validation datasets."""
+    """Create train and validation datasets using tf.data.Dataset."""
+    import tensorflow as tf
+
     np.random.seed(seed)
     n_samples = len(images)
     indices = np.random.permutation(n_samples)
@@ -120,13 +122,16 @@ def create_datasets(
     train_indices = indices[val_size:]
     val_indices = indices[:val_size]
 
-    train_images = images[train_indices]
-    train_masks = masks[train_indices]
-    val_images = images[val_indices]
-    val_masks = masks[val_indices]
+    train_images = images[train_indices].astype(np.float32)
+    train_masks = masks[train_indices].astype(np.float32)
+    val_images = images[val_indices].astype(np.float32)
+    val_masks = masks[val_indices].astype(np.float32)
 
-    train_ds = SimpleDataset(train_images, train_masks, batch_size)
-    val_ds = SimpleDataset(val_images, val_masks, batch_size)
+    train_ds = tf.data.Dataset.from_tensor_slices((train_images, train_masks))
+    train_ds = train_ds.batch(batch_size).shuffle(buffer_size=len(train_images))
+
+    val_ds = tf.data.Dataset.from_tensor_slices((val_images, val_masks))
+    val_ds = val_ds.batch(batch_size)
 
     return train_ds, val_ds
 
