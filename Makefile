@@ -56,8 +56,9 @@ help:
 	@echo ""
 	@echo "$(GREEN)Примеры:$(NC)"
 	@echo "  make train                          # CPU, 50 эпох"
-	@echo "  make train EPOCHS=10 BATCH_SIZE=16   # быстрое обучение"
+	@echo "  make train EPOCHS=10 BATCH_SIZE=16 # быстрое обучение"
 	@echo "  make train EPOCHS=100 DEVICE=gpu    # GPU, 100 эпох"
+	@echo "  make predict MODEL=/путь/к/модели.h5"
 
 # ============================================================================
 # Проверка окружения
