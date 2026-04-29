@@ -78,12 +78,11 @@ download-data:
 	@echo "$(BLUE)Скачивание данных...$(NC)"
 	@$(PYTHON) -c "import gdown" 2>/dev/null || $(PYTHON) -m pip install gdown
 	@echo "$(YELLOW)Скачиваем с Google Drive...$(NC)"
-	gdown --folder "1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D" -O /tmp/data_extract --quiet
+	gdown --folder "1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D" -O . --quiet
 	@echo "$(YELLOW)Распаковываем...$(NC)"
 	@mkdir -p $(DATA_DIR)
-	tar -xzf /tmp/data_extract/*.tar.gz -C $(DATA_DIR) 2>/dev/null || \
-		mv /tmp/data_extract/*/* $(DATA_DIR)/ 2>/dev/null || true
-	@rm -rf /tmp/data_extract
+	tar -xzf *.tar.gz -C $(DATA_DIR) 2>/dev/null || mv *tiles*/* $(DATA_DIR)/ 2>/dev/null || true
+	@rm -rf tiles_* *.tar.gz
 	@echo "$(GREEN)Данные в $(DATA_DIR)!$(RESET)"
 
 # ============================================================================
