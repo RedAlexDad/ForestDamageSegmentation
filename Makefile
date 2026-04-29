@@ -77,8 +77,8 @@ install:
 download-data:
 	@echo "$(BLUE)Скачивание данных...$(NC)"
 	@$(PYTHON) -c "import gdown" 2>/dev/null || $(PYTHON) -m pip install gdown -q
-	@echo "$(YELLOW)Скачиваем с Google Drive (может занять время)...$(NC)"
-	@(gdown --folder "1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D" -O . 2>&1 || true)
+	@echo "$(YELLOW)СкачиваемParallel (3 файла)...$(NC)"
+	gdown --folder "1XRemc1-sotxGNaivNNbmMLOK_Q8Q2K4D" -O . --parallel --quiet
 	@mkdir -p $(DATA_DIR)
 	@tar -xzf *.tar.gz -C $(DATA_DIR) 2>/dev/null || true
 	@rm -f *.tar.gz
