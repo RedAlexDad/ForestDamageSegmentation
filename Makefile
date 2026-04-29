@@ -51,7 +51,9 @@ help:
 	@echo "  LEARNING_RATE=число   - Скорость обучения (по умл.: 0.001)"
 	@echo ""
 	@echo "$(GREEN)Примеры:$(NC)"
-	@echo "  make train DATA_DIR=/путь/к/данным EPOCHS=100"
+	@echo "  make train                          # по умолчанию"
+	@echo "  make train EPOCHS=10 BATCH_SIZE=16 # быстрое обучение"
+	@echo "  make train EPOCHS=100 LR=0.0001     # долгое обучение"
 	@echo "  make predict MODEL_DIR=/путь/к/модели.h5"
 
 # ============================================================================
